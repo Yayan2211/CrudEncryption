@@ -15,4 +15,8 @@ class Product extends Model
         'price',
         'description'
     ];
+     protected $casts = [
+        'name' => 'encrypted',
+        'description' => 'encrypted',
+    ];
 }

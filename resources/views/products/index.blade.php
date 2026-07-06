@@ -3,52 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Product Management</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Vue 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
 </head>
-<body>
-    <h1>Product</h1>
-    <div>
-        @if(session()->has('success'))
-            <div>
-                {{session('success')}}
+<body class="bg-light">
+
+<div id="app" class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <div class="card shadow">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">@{{ title }}</h3>
+
+                    <a href="{{ route('product.create') }}" class="btn btn-light">
+                        + Create Product
+                    </a>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body">
+
+                    @if(session()->has('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-hover table-striped align-middle">
+
+                            <thead class="table-dark">
+                                <tr>
+                                    <!-- <th>ID</th> -->
+                                    <th>Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th width="100">Edit</th>
+                                    <th width="100">Delete</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                            @forelse($products as $product)
+
+                                <tr>
+
+                                    <!-- <td>{{ $product->id }}</td> -->
+
+                                    <td>{{ $product->name }}</td>
+
+                                    <td>{{ $product->qty }}</td>
+
+                                    <td>${{ number_format($product->price,2) }}</td>
+
+                                    <td>{{ $product->description }}</td>
+
+                                    <td>
+
+                                        <a href="{{ route('product.edit',['product'=>$product]) }}"
+                                           class="btn btn-warning btn-sm w-100">
+                                            Edit
+                                        </a>
+
+                                    </td>
+
+                                    <td>
+
+                                        <form method="POST"
+                                              action="{{ route('product.destroy',['product'=>$product]) }}">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-sm w-100"
+                                                    onclick="return confirm('Are you sure you want to delete this product?')">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="7" class="text-center text-muted">
+                                        No products found.
+                                    </td>
+
+                                </tr>
+
+                            @endforelse
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
             </div>
-        @endif
-    </div>
-    <div>
-        <div>
-            <a href="{{route('product.create')}}">Create a Product</a>
+
         </div>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            @foreach($products as $product )
-                <tr>
-                    <td>{{$product->id}}</td>
-                    <td>{{$product->name}}</td>
-                    <td>{{$product->qty}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>{{$product->description}}</td>
-                    <td>
-                        <a href="{{route('product.edit', ['product' => $product])}}">Edit</a>
-                    </td>
-                    <td>
-                        <form method="post" action="{{route('product.destroy', ['product' => $product])}}">
-                            @csrf 
-                            @method('delete')
-                            <input type="submit" value="Delete" />
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </table>
     </div>
+
+</div>
+
+<script>
+new Vue({
+    el: '#app',
+    data: {
+        title: 'Product Management'
+    }
+});
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

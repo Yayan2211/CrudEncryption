@@ -36,6 +36,9 @@ class ProductController extends Controller
     }
 
     public function update(Product $product, Request $request){
+
+        $this->authorize('update', $product);
+
         $data = $request->validate([
             'name' => 'required',
             'qty' => 'required|numeric',

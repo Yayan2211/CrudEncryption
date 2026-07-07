@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Product</title>
+    <title>View Product</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Vue 2 -->
@@ -17,30 +17,29 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-7">
+        <div class="col-md-7">
 
             <div class="card shadow">
 
-                <!-- Header -->
                 <div class="card-header bg-success text-white">
                     <h3 class="mb-0">@{{ title }}</h3>
                 </div>
 
-                <!-- Body -->
                 <div class="card-body">
 
-                    @if($errors->any())
+                    @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
-                                @foreach($errors->all() as $error)
+                                @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('product.store') }}">
+                    <form method="POST" action="{{ route('product.update', ['product' => $product]) }}">
                         @csrf
+                        @method('PUT')
 
                         <div class="mb-3">
                             <label class="form-label">Product Name</label>
@@ -48,9 +47,8 @@
                                 type="text"
                                 class="form-control"
                                 name="name"
-                                placeholder="Enter product name"
-                                value="{{ old('name') }}"
-                                required>
+                                value="{{ old('name', $product->name) }}"
+                                disabled>
                         </div>
 
                         <div class="mb-3">
@@ -59,9 +57,8 @@
                                 type="number"
                                 class="form-control"
                                 name="qty"
-                                placeholder="Enter quantity"
-                                value="{{ old('qty') }}"
-                                required>
+                                value="{{ old('qty', $product->qty) }}"
+                                disabled>
                         </div>
 
                         <div class="mb-3">
@@ -71,18 +68,17 @@
                                 step="0.01"
                                 class="form-control"
                                 name="price"
-                                placeholder="Enter price"
-                                value="{{ old('price') }}"
-                                required>
+                                value="{{ old('price', $product->price) }}"
+                                disabled>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Description</label>
                             <textarea
                                 class="form-control"
-                                name="description"
                                 rows="4"
-                                placeholder="Enter product description">{{ old('description') }}</textarea>
+                                name="description"
+                                disabled>{{ old('description', $product->description) }}</textarea>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -90,10 +86,6 @@
                             <a href="{{ route('product.indexProduct') }}" class="btn btn-secondary">
                                 ← Back
                             </a>
-
-                            <button type="submit" class="btn btn-success">
-                                Save Product
-                            </button>
 
                         </div>
 
@@ -113,7 +105,7 @@
 new Vue({
     el: '#app',
     data: {
-        title: 'Create Product'
+        title: 'View Product'
     }
 });
 </script>

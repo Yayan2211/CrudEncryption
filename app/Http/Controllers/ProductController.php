@@ -7,9 +7,9 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function indexProduct(){
         $products = Product::all();
-        return view('products.index', ['products' => $products]);
+        return view('products.indexProduct', ['products' => $products]);
         
     }
 
@@ -27,7 +27,7 @@ class ProductController extends Controller
 
         $newProduct = Product::create($data);
 
-        return redirect(route('product.index'));
+        return redirect(route('product.indexProduct'));
 
     }
 
@@ -48,12 +48,16 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect(route('product.index'))->with('success', 'Product Updated Succesffully');
+        return redirect(route('product.indexProduct'))->with('success', 'Product Updated Succesffully');
 
     }
 
     public function destroy(Product $product){
         $product->delete();
-        return redirect(route('product.index'))->with('success', 'Product deleted Succesffully');
+        return redirect(route('product.indexProduct'))->with('success', 'Product deleted Succesffully');
+    }
+
+    public function view(Product $product){
+        return view('products.view', ['product' => $product]);
     }
 }

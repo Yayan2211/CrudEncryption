@@ -83,7 +83,7 @@
 
                         <div class="d-flex justify-content-between">
 
-                            <a href="{{ route('product.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('product.indexProduct') }}" class="btn btn-secondary">
                                 ← Back
                             </a>
 

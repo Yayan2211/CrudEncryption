@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
@@ -21,7 +22,7 @@
             <div class="card shadow">
 
                 <!-- Header -->
-                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                     <h3 class="mb-0">@{{ title }}</h3>
 
                     <a href="{{ route('product.create') }}" class="btn btn-light">
@@ -49,8 +50,7 @@
                                     <th>Qty</th>
                                     <th>Price</th>
                                     <th>Description</th>
-                                    <th width="100">Edit</th>
-                                    <th width="100">Delete</th>
+                                    <th width="100">Actions</th>
                                 </tr>
                             </thead>
 
@@ -71,15 +71,36 @@
                                     <td>{{ $product->description }}</td>
 
                                     <td>
+                                        <div class="d-flex gap-1 justify-content-center">
+                                            <a href="{{ route('product.view', ['product' => $product]) }}"
+                                            class="btn btn-primary btn-sm"
+                                            title="View">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
 
-                                        <a href="{{ route('product.edit',['product'=>$product]) }}"
-                                           class="btn btn-warning btn-sm w-100">
-                                            Edit
-                                        </a>
+                                            <a href="{{ route('product.edit', ['product' => $product]) }}"
+                                            class="btn btn-warning btn-sm"
+                                            title="Edit">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
 
+                                            <form method="POST"
+                                                action="{{ route('product.destroy', ['product' => $product]) }}"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Delete"
+                                                        onclick="return confirm('Are you sure you want to delete this product?')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
 
-                                    <td>
+                                    <!-- <td>
 
                                         <form method="POST"
                                               action="{{ route('product.destroy',['product'=>$product]) }}">
@@ -96,6 +117,15 @@
                                         </form>
 
                                     </td>
+
+                                    <td>
+
+                                        <a href="{{ route('product.view',['product'=>$product]) }}"
+                                           class="btn btn-primary btn-sm w-100">
+                                            View
+                                        </a>
+
+                                    </td> -->
 
                                 </tr>
 

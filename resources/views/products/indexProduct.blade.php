@@ -17,6 +17,12 @@
 <div id="app" class="container py-5">
 
     <div class="row justify-content-center">
+        <form action="{{ route('logout') }}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-danger">
+            Logout
+        </button>
+    </form>
         <div class="col-lg-10">
 
             <div class="card shadow">
@@ -33,7 +39,7 @@
                 <!-- Body -->
                 <div class="card-body">
 
-                    @if(session()->has('success'))
+                    <!-- @if(session()->has('success'))
                         <div id="success-alert" class="alert alert-success">
                             {{ session('success') }}
                         </div>
@@ -51,7 +57,7 @@
                                 }
                             }, 3000);
                         </script>
-                    @endif
+                    @endif -->
 
                     <div class="table-responsive">
 

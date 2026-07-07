@@ -34,23 +34,37 @@
                 <div class="card-body">
 
                     @if(session()->has('success'))
-                        <div class="alert alert-success">
+                        <div id="success-alert" class="alert alert-success">
                             {{ session('success') }}
                         </div>
+
+                        <script>
+                            setTimeout(function () {
+                                const alert = document.getElementById('success-alert');
+                                if (alert) {
+                                    alert.style.transition = 'opacity 0.5s';
+                                    alert.style.opacity = '0';
+
+                                    setTimeout(() => {
+                                        alert.remove();
+                                    }, 500);
+                                }
+                            }, 3000);
+                        </script>
                     @endif
 
                     <div class="table-responsive">
 
                         <table class="table table-bordered table-hover table-striped align-middle">
 
-                            <thead class="table-dark">
+                            <thead class="table-dark align-center">
                                 <tr>
                                     <!-- <th>ID</th> -->
-                                    <th>Name</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Description</th>
-                                    <th width="100">Actions</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center" width="100">Actions</th>
                                 </tr>
                             </thead>
 
